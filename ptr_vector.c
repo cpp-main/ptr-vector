@@ -131,6 +131,17 @@ void* PtrVector_RemoveAt(ptr_vector* vec, int pos) {
     return item;
 }
 
+void* PtrVector_ReplaceAt(ptr_vector* vec, int pos, void* new_item) {
+    assert(vec != NULL);
+    if (pos < 0 || pos >= vec->array_num)
+        return NULL;
+
+    void* ret = vec->array_ptr[pos];
+    vec->array_ptr[pos] = new_item;
+
+    return ret;
+}
+
 void* PtrVector_GetAt(ptr_vector* vec, int pos) {
     assert(vec != NULL && pos >= 0);
     if (pos < vec->array_num) {
@@ -139,55 +150,56 @@ void* PtrVector_GetAt(ptr_vector* vec, int pos) {
     return NULL;
 }
 
-int PtrVector_CountIf(ptr_vector* vec, ptr_vector_cond_func cond) {
+int PtrVector_CountIf(ptr_vector* vec, ptr_vector_cond_func cond_func, void* cond_data) {
     assert(vec != NULL);
-    if (cond == NULL)
+    if (cond_func == NULL)
         return 0;
 
     int count = 0;
     for (int i = 0; i < vec->array_num; ++i) {
         void *item = vec->array_ptr[i];
-        if (cond(item))
+        if (cond_func(item, cond_data))
             ++ count;
     }
     return count;
 }
 
-int  PtrVector_Find(ptr_vector* vec, ptr_vector_cond_func cond, int start_pos) {
+int  PtrVector_Find(ptr_vector* vec, ptr_vector_cond_func cond_func, void* cond_data, int start_pos) {
     assert(vec != NULL);
-    if (cond == NULL || start_pos < 0 || start_pos >= vec->array_num)
+    if (cond_func == NULL || start_pos < 0 || start_pos >= vec->array_num)
         return -1;
 
     for (int i = start_pos; i < vec->array_num; ++i) {
         void *item = vec->array_ptr[i];
-        if (cond(item))
+        if (cond_func(item, cond_data))
             return i;
     }
 
     return -1;
 }
 
-void PtrVector_Foreach(ptr_vector* vec, ptr_vector_handle_func handle) {
+void PtrVector_Foreach(ptr_vector* vec, ptr_vector_handle_func handle_func, void* handle_data) {
     assert(vec != NULL);
-    if (handle == NULL)
+    if (handle_func == NULL)
         return;
 
     for (int i = 0; i < vec->array_num; ++i) {
         void *item = vec->array_ptr[i];
-        handle(item);
+        handle_func(item, handle_data);
     }
 }
 
-int  PtrVector_ForeachIf(ptr_vector* vec, ptr_vector_cond_func cond, ptr_vector_handle_func handle) {
+int  PtrVector_ForeachIf(ptr_vector* vec, ptr_vector_cond_func cond_func, void* cond_data,
+                         ptr_vector_handle_func handle_func, void* handle_data) {
     assert(vec != NULL);
-    if (cond == NULL || handle == NULL)
+    if (cond_func == NULL || handle_func == NULL)
         return 0;
 
     int count = 0;
     for (int i = 0; i < vec->array_num; ++i) {
         void *item = vec->array_ptr[i];
-        if (cond(item)) {
-            handle(item);
+        if (cond_func(item, cond_data)) {
+            handle_func(item, handle_data);
             ++ count;
         }
     }
@@ -195,14 +207,14 @@ int  PtrVector_ForeachIf(ptr_vector* vec, ptr_vector_cond_func cond, ptr_vector_
     return count;
 }
 
-ptr_vector* PtrVector_Filter(ptr_vector* vec, ptr_vector_cond_func cond) {
-    assert(vec != NULL && cond != NULL);
+ptr_vector* PtrVector_Filter(ptr_vector* vec, ptr_vector_cond_func cond_func, void* cond_data) {
+    assert(vec != NULL && cond_func != NULL);
 
     ptr_vector* new_vec = PtrVector_Create(0);
     if (new_vec != NULL) {
         for (int i = 0; i < vec->array_num; ++i) {
             void *item = vec->array_ptr[i];
-            if (cond(item))
+            if (cond_func(item, cond_data))
                 PtrVector_PushBack(new_vec, item);
         }
     }

@@ -5,7 +5,10 @@
  *
  * Change Logs:
  * Date         Author      Notes
- * 2016-04-07   Sid lee     Create
+ * 2016-07-04   Sid lee     Create
+ * 2016-07-05   Sid lee
+ * 1. 给Find, ForeachIf, CountIf, Filter方法的条件函数与处理函数添加data参数
+ * 2. 新增Replace方法，避免使用RemoveAt, InsertAt造成大量移动操作
  */
 #ifndef PTR_VERTOR_H_20160704
 #define PTR_VERTOR_H_20160704
@@ -22,9 +25,9 @@ struct ptr_vector;
 typedef struct ptr_vector ptr_vector;
 
 //! 条件判断函数指针
-typedef bool (ptr_vector_cond_func)(void *);
+typedef bool (ptr_vector_cond_func)(void *item, void *cond_data);
 //! 元素处理函数指针
-typedef void (ptr_vector_handle_func)(void *);
+typedef void (ptr_vector_handle_func)(void *item, void *handle_data);
 
 ///////////////////////////////////////////////////////////////////////////////
 //  Functions
@@ -55,50 +58,60 @@ bool PtrVector_InsertAt(ptr_vector* vec, void* item, int pos);
 //! 移除容器pos位置的元素。如果成功，则返回该元素
 void* PtrVector_RemoveAt(ptr_vector* vec, int pos);
 
+//! 替换容器pos位置的元素。如果成功，则返回替换前的元素
+void* PtrVector_ReplaceAt(ptr_vector* vec, int pos, void* new_item);
+
 //! 获取容器pos位置的元素
 void* PtrVector_GetAt(ptr_vector* vec, int pos);
 
 /**
  * 统计容器中满足cond条件的元素个数
  * \param vec
- * \param cond 条件函数指针
+ * \param cond_func 条件函数指针
+ * \param cond_data 条件附加参数指针
  * \return int 满足条件的元素个数
  */
-int PtrVector_CountIf(ptr_vector* vec, ptr_vector_cond_func cond);
+int PtrVector_CountIf(ptr_vector* vec, ptr_vector_cond_func cond_func, void* cond_data);
 
 /**
  * 从容器中找出第一个符合cond函数判定条件元素的位置
  * \param vec
- * \param cond 判定函数指针
+ * \param cond_func 判定函数指针
+ * \param cond_data 条件附加参数指针
  * \param start_pos 搜索起始位置
  * \return int 元素的位置
  *  > -1 没有找到该元素
  */
-int  PtrVector_Find(ptr_vector* vec, ptr_vector_cond_func cond, int start_pos);
+int PtrVector_Find(ptr_vector* vec, ptr_vector_cond_func cond_func, void* cond_data, int start_pos);
 
 /**
  * 对每个元素执行handle函数
  * \param vec
- * \param handle 处理函数指针
+ * \param handle_func 处理函数指针
+ * \param handle_data 处理函数附加参数指针
  */
-void PtrVector_Foreach(ptr_vector* vec, ptr_vector_handle_func handle);
+void PtrVector_Foreach(ptr_vector* vec, ptr_vector_handle_func handle_func, void* handle_data);
 
 /**
  * 对每个符合cond判定条件的元素执行handle处理
  * \param vec
- * \param cond 条件判定函数指针
- * \param handle 处理函数指针
+ * \param cond_func 条件判定函数指针
+ * \param cond_data 条件附加参数指针
+ * \param handle_func 处理函数指针
+ * \param handle_data 处理函数附加参数指针
  * \return int 被处理的元素个数
  */
-int PtrVector_ForeachIf(ptr_vector* vec, ptr_vector_cond_func cond, ptr_vector_handle_func handle);
+int PtrVector_ForeachIf(ptr_vector* vec, ptr_vector_cond_func cond_func, void* cond_data,
+                        ptr_vector_handle_func handle_func, void* handle_data);
 
 /**
  * 筛选出满足条件cond的元素，并将元素放置在新容器中并返回容器
  * \param vec
- * \param cond 条件判定函数指针
+ * \param cond_func 条件判定函数指针
+ * \param cond_data 条件附加参数指针
  * \return ptr_vector* 新容器对象
  */
-ptr_vector* PtrVector_Filter(ptr_vector* vec, ptr_vector_cond_func cond);
+ptr_vector* PtrVector_Filter(ptr_vector* vec, ptr_vector_cond_func cond_func, void* cond_data);
 
 /**
  * 销毁容器
