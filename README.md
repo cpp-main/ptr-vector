@@ -8,7 +8,7 @@ PtrVector容器对象主要有以下接口：
 ##1. 创建、复制、筛选、销毁
 ```
 ptr_vector* PtrVector_Create(int reserved_size);
-ptr_vector* PtrVector_Dup(const ptr_vector* ptr);
+ptr_vector* PtrVector_Clone(const ptr_vector* ptr);
 ptr_vector* PtrVector_Filter(ptr_vector* vec, ptr_vector_cond_func cond_func, void* cond_data);
 void PtrVector_Destory(ptr_vector* vec);
 ```

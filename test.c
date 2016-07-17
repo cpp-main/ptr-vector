@@ -42,7 +42,7 @@ int main() {
     int count = PtrVector_CountIf(vec, cond, &e);
     printf("count:%d\n", count);  //4
     puts("=======");
-    ptr_vector* dup_vec = PtrVector_Dup(vec); //g, a, f, d, e, f, h
+    ptr_vector* dup_vec = PtrVector_Clone(vec); //g, a, f, d, e, f, h
     PtrVector_Foreach(dup_vec, print, NULL);
     puts("=======");
     PtrVector_ForeachIf(vec, cond, &f, print, NULL); //g, h

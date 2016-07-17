@@ -41,7 +41,7 @@ typedef void (ptr_vector_handle_func)(void *item, void *handle_data);
 ptr_vector* PtrVector_Create(int reserved_size);
 
 //! 复制ptr_vector容器对象
-ptr_vector* PtrVector_Dup(const ptr_vector* ptr);
+ptr_vector* PtrVector_Clone(const ptr_vector* ptr);
 
 //! 获取容器的元素个数
 size_t PtrVector_Size(const ptr_vector* vec);

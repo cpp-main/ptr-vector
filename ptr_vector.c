@@ -41,7 +41,7 @@ ptr_vector* PtrVector_Create(int reserved_size) {
     return vec;
 }
 
-ptr_vector* PtrVector_Dup(const ptr_vector* src) {
+ptr_vector* PtrVector_Clone(const ptr_vector* src) {
     assert(src != NULL);
     ptr_vector* vec = calloc(1, sizeof(ptr_vector));
     if (vec != NULL) {
