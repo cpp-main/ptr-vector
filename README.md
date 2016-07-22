@@ -13,13 +13,16 @@ ptr_vector* PtrVector_Filter(ptr_vector* vec, ptr_vector_cond_func cond_func, vo
 void PtrVector_Destory(ptr_vector* vec);
 ```
 
-##2. 获取容器成员个数
+##2. 获取容器成员个数、容量、预留容量
 ```
-size_t PtrVector_Size(const ptr_vector* vec);
+size_t PtrVector_Count(const ptr_vector* vec);
+size_t PtrVector_Capacity(const ptr_vector* vec);
+size_t PrtVector_Reserve(ptr_vector* vec, size_t new_size);
 ```
 
-##3. 追加、弹出、插入、删除、替换、获取
+##3. 清空、追加、弹出、插入、删除、替换、获取
 ```
+void PtrVector_Clear(ptr_vector* vec);
 bool PtrVector_PushBack(ptr_vector* vec, void* item);
 void* PtrVector_PopBack(ptr_vector* vec);
 bool PtrVector_InsertAt(ptr_vector* vec, void* item, int pos);

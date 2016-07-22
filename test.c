@@ -15,42 +15,56 @@ int main() {
     char a = 'a', b = 'b', c = 'c', d = 'd';
     char e = 'e', f = 'f', g = 'g', h = 'h';
 
-    puts("=======");
+    puts("\n=======");
     ptr_vector* vec = PtrVector_Create(1);
     PtrVector_PushBack(vec, &a);
     PtrVector_PushBack(vec, &b);
     PtrVector_PushBack(vec, &c);
     PtrVector_InsertAt(vec, &d, 1);  //a, d, b, c
     PtrVector_Foreach(vec, print, NULL);
-    puts("=======");
+    puts("\n=======");
+    int cap = PtrVector_Capacity(vec);
+    int count = PtrVector_Count(vec);
+    printf("cap:%d, count:%d\n", cap, count);
+    PtrVector_Reserve(vec, 50);
+    cap = PtrVector_Capacity(vec);
+    count = PtrVector_Count(vec);
+    printf("cap:%d, count:%d\n", cap, count);
+    puts("\n=======");
+
     PtrVector_PopBack(vec);  //a, d, b,
     PtrVector_PushBack(vec, &e);  //a, d, b, e,
     PtrVector_PushBack(vec, &f);  //a, d, b, e, f,
     PtrVector_RemoveAt(vec, 2);  //a, d, e, f,
     PtrVector_Foreach(vec, print, NULL);
-    puts("=======");
+    puts("\n=======");
     PtrVector_InsertAt(vec, &f, 1);  //a, f, d, e, f,
     PtrVector_InsertAt(vec, &g, 0);  //g, a, f, d, e, f,
     PtrVector_PushBack(vec, &h);  //g, a, f, d, e, f, h
     PtrVector_Foreach(vec, print, NULL);
-    puts("=======");
+    puts("\n=======");
     PtrVector_ForeachIf(vec, cond, &e, print, NULL); //g, f, f, h
-    puts("=======");
+    puts("\n=======");
     ptr_vector* new_vec = PtrVector_Filter(vec, cond, &e);
     PtrVector_Foreach(new_vec, print, NULL); //g, f, f, h
-    puts("=======");
-    int count = PtrVector_CountIf(vec, cond, &e);
+    puts("\n=======");
+    count = PtrVector_CountIf(vec, cond, &e);
     printf("count:%d\n", count);  //4
-    puts("=======");
+    puts("\n=======");
     ptr_vector* dup_vec = PtrVector_Clone(vec); //g, a, f, d, e, f, h
     PtrVector_Foreach(dup_vec, print, NULL);
-    puts("=======");
+    puts("\n=======");
     PtrVector_ForeachIf(vec, cond, &f, print, NULL); //g, h
-    puts("=======");
+    puts("\n=======");
     PtrVector_ReplaceAt(vec, 3, &c); //g, a, f, c, e, f, h
     PtrVector_Foreach(vec, print, NULL);
-    puts("=======");
+    puts("\n=======");
+    PtrVector_Clear(vec);
+    PtrVector_Foreach(vec, print, NULL);  //
+    puts("\n=======");
     PtrVector_Destory(new_vec);
     PtrVector_Destory(dup_vec);
     PtrVector_Destory(vec);
+
+    return 0;
 }

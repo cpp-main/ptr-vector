@@ -1,7 +1,7 @@
 objects=ptr_vector.o test.o
 target=test
 
-CFLAGS+=-g
+CFLAGS+=-g -Wall
 
 all:$(target)
 

@@ -9,6 +9,9 @@
  * 2016-07-05   Sid lee
  * 1. 给Find, ForeachIf, CountIf, Filter方法的条件函数与处理函数添加data参数
  * 2. 新增Replace方法，避免使用RemoveAt, InsertAt造成大量移动操作
+ * 2016-07-22   Sid lee
+ * 1. 将Size重命名为Count
+ * 2. 新增3个常用函数Capacity, Reserve, Clear
  */
 #ifndef PTR_VERTOR_H_20160704
 #define PTR_VERTOR_H_20160704
@@ -38,13 +41,22 @@ typedef void (ptr_vector_handle_func)(void *item, void *handle_data);
  * \param reserved_size 预设大小
  * \return ptr_vector 容器对象
  */
-ptr_vector* PtrVector_Create(int reserved_size);
+ptr_vector* PtrVector_Create(size_t reserved_size);
 
 //! 复制ptr_vector容器对象
 ptr_vector* PtrVector_Clone(const ptr_vector* ptr);
 
 //! 获取容器的元素个数
-size_t PtrVector_Size(const ptr_vector* vec);
+size_t PtrVector_Count(const ptr_vector* vec);
+
+//! 获取容器当前容量
+size_t PtrVector_Capacity(const ptr_vector* vec);
+
+//! 预留空间大小，为防止频繁申请空间
+size_t PtrVector_Reserve(ptr_vector* vec, size_t new_size);
+
+//! 清空容器
+void PtrVector_Clear(ptr_vector* vec);
 
 //! 将容器尾部追加元素
 bool PtrVector_PushBack(ptr_vector* vec, void* item);

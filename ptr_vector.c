@@ -23,7 +23,7 @@ struct ptr_vector {
 //  Functions
 ///////////////////////////////////////////////////////////////////////////////
 
-ptr_vector* PtrVector_Create(int reserved_size) {
+ptr_vector* PtrVector_Create(size_t reserved_size) {
     assert(reserved_size >= 0);
     ptr_vector* vec = calloc(1, sizeof(ptr_vector));
     if (vec != NULL) {
@@ -59,9 +59,31 @@ ptr_vector* PtrVector_Clone(const ptr_vector* src) {
     return vec;
 }
 
-size_t PtrVector_Size(const ptr_vector* vec) {
+size_t PtrVector_Count(const ptr_vector* vec) {
     assert(vec != NULL);
     return vec->array_num;
+}
+
+size_t PtrVector_Capacity(const ptr_vector* vec) {
+    assert(vec != NULL);
+    return vec->array_capacity;
+}
+
+size_t PtrVector_Reserve(ptr_vector* vec, size_t new_size) {
+    assert(vec != NULL);
+    if (vec->array_capacity < new_size) {
+        void** ptr = realloc(vec->array_ptr, new_size * sizeof(void*));
+        if (ptr != NULL) {
+            vec->array_ptr = ptr; 
+            vec->array_capacity = new_size;
+        }
+    }
+    return vec->array_capacity;
+}
+
+void PtrVector_Clear(ptr_vector* vec) {
+    assert(vec != NULL);
+    vec->array_num = 0;
 }
 
 /**
