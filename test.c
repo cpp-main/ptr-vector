@@ -16,7 +16,7 @@ int main() {
     char e = 'e', f = 'f', g = 'g', h = 'h';
 
     puts("\n=======");
-    ptr_vector* vec = PtrVector_Create(1);
+    PtrVector* vec = PtrVector_Create(1);
     PtrVector_PushBack(vec, &a);
     PtrVector_PushBack(vec, &b);
     PtrVector_PushBack(vec, &c);
@@ -45,13 +45,13 @@ int main() {
     puts("\n=======");
     PtrVector_ForeachIf(vec, cond, &e, print, NULL); //g, f, f, h
     puts("\n=======");
-    ptr_vector* new_vec = PtrVector_Filter(vec, cond, &e);
+    PtrVector* new_vec = PtrVector_Filter(vec, cond, &e);
     PtrVector_Foreach(new_vec, print, NULL); //g, f, f, h
     puts("\n=======");
     count = PtrVector_CountIf(vec, cond, &e);
     printf("count:%d\n", count);  //4
     puts("\n=======");
-    ptr_vector* dup_vec = PtrVector_Clone(vec); //g, a, f, d, e, f, h
+    PtrVector* dup_vec = PtrVector_Clone(vec); //g, a, f, d, e, f, h
     PtrVector_Foreach(dup_vec, print, NULL);
     puts("\n=======");
     PtrVector_ForeachIf(vec, cond, &f, print, NULL); //g, h

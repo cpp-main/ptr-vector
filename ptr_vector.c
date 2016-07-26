@@ -13,7 +13,7 @@
 
 #define _DEFAULT_INIT_SIZE 32
 
-struct ptr_vector {
+struct PtrVector {
     void** array_ptr;   //! 指针数组指针
     size_t array_capacity;  //! 指针数组容量
     int    array_num;  //! 成员个数
@@ -23,9 +23,9 @@ struct ptr_vector {
 //  Functions
 ///////////////////////////////////////////////////////////////////////////////
 
-ptr_vector* PtrVector_Create(size_t reserved_size) {
+PtrVector* PtrVector_Create(size_t reserved_size) {
     assert(reserved_size >= 0);
-    ptr_vector* vec = calloc(1, sizeof(ptr_vector));
+    PtrVector* vec = calloc(1, sizeof(PtrVector));
     if (vec != NULL) {
         int init_size = (reserved_size != 0) ? reserved_size : _DEFAULT_INIT_SIZE; 
         void ** ptr = calloc(init_size, sizeof(void*));
@@ -41,9 +41,9 @@ ptr_vector* PtrVector_Create(size_t reserved_size) {
     return vec;
 }
 
-ptr_vector* PtrVector_Clone(const ptr_vector* src) {
+PtrVector* PtrVector_Clone(const PtrVector* src) {
     assert(src != NULL);
-    ptr_vector* vec = calloc(1, sizeof(ptr_vector));
+    PtrVector* vec = calloc(1, sizeof(PtrVector));
     if (vec != NULL) {
         void** ptr = calloc(src->array_capacity, sizeof(void*));
         if (ptr != NULL) {
@@ -59,17 +59,17 @@ ptr_vector* PtrVector_Clone(const ptr_vector* src) {
     return vec;
 }
 
-size_t PtrVector_Size(const ptr_vector* vec) {
+size_t PtrVector_Size(const PtrVector* vec) {
     assert(vec != NULL);
     return vec->array_num;
 }
 
-size_t PtrVector_Capacity(const ptr_vector* vec) {
+size_t PtrVector_Capacity(const PtrVector* vec) {
     assert(vec != NULL);
     return vec->array_capacity;
 }
 
-size_t PtrVector_Reserve(ptr_vector* vec, size_t new_size) {
+size_t PtrVector_Reserve(PtrVector* vec, size_t new_size) {
     assert(vec != NULL);
     if (vec->array_capacity < new_size) {
         void** ptr = realloc(vec->array_ptr, new_size * sizeof(void*));
@@ -81,7 +81,7 @@ size_t PtrVector_Reserve(ptr_vector* vec, size_t new_size) {
     return vec->array_capacity;
 }
 
-void PtrVector_Clear(ptr_vector* vec) {
+void PtrVector_Clear(PtrVector* vec) {
     assert(vec != NULL);
     vec->array_num = 0;
 }
@@ -93,7 +93,7 @@ void PtrVector_Clear(ptr_vector* vec) {
  *  > true 检查正常
  *  > false 异常不能插入新成员
  */
-static bool _PreAddItem(ptr_vector* vec) {
+static bool _PreAddItem(PtrVector* vec) {
     if (vec->array_num == vec->array_capacity) {
         size_t new_size = (vec->array_capacity * 3 / 2) + 1;
         void** ptr = realloc(vec->array_ptr, new_size * sizeof(void*));
@@ -107,7 +107,7 @@ static bool _PreAddItem(ptr_vector* vec) {
     return true;
 }
 
-bool PtrVector_PushBack(ptr_vector* vec, void* item) {
+bool PtrVector_PushBack(PtrVector* vec, void* item) {
     assert(vec != NULL);
     if (!_PreAddItem(vec))
         return false;
@@ -117,7 +117,7 @@ bool PtrVector_PushBack(ptr_vector* vec, void* item) {
     return true;
 }
 
-void* PtrVector_PopBack(ptr_vector* vec) {
+void* PtrVector_PopBack(PtrVector* vec) {
     assert(vec != NULL);
     if (vec->array_num > 0) {
         void* ptr = vec->array_ptr[vec->array_num - 1];
@@ -127,7 +127,7 @@ void* PtrVector_PopBack(ptr_vector* vec) {
     return NULL;
 }
 
-bool PtrVector_InsertAt(ptr_vector* vec, void* item, int pos) {
+bool PtrVector_InsertAt(PtrVector* vec, void* item, int pos) {
     assert(vec != NULL);
     if (!_PreAddItem(vec))
         return false;
@@ -140,7 +140,7 @@ bool PtrVector_InsertAt(ptr_vector* vec, void* item, int pos) {
     return true;
 }
 
-void* PtrVector_RemoveAt(ptr_vector* vec, int pos) {
+void* PtrVector_RemoveAt(PtrVector* vec, int pos) {
     assert(vec != NULL);
     if (pos < 0 || pos >= vec->array_num)
         return NULL;
@@ -153,7 +153,7 @@ void* PtrVector_RemoveAt(ptr_vector* vec, int pos) {
     return item;
 }
 
-void* PtrVector_ReplaceAt(ptr_vector* vec, int pos, void* new_item) {
+void* PtrVector_ReplaceAt(PtrVector* vec, int pos, void* new_item) {
     assert(vec != NULL);
     if (pos < 0 || pos >= vec->array_num)
         return NULL;
@@ -164,7 +164,7 @@ void* PtrVector_ReplaceAt(ptr_vector* vec, int pos, void* new_item) {
     return ret;
 }
 
-void* PtrVector_GetAt(ptr_vector* vec, int pos) {
+void* PtrVector_GetAt(PtrVector* vec, int pos) {
     assert(vec != NULL && pos >= 0);
     if (pos < vec->array_num) {
         return vec->array_ptr[pos];
@@ -172,7 +172,7 @@ void* PtrVector_GetAt(ptr_vector* vec, int pos) {
     return NULL;
 }
 
-int PtrVector_CountIf(ptr_vector* vec, ptr_vector_cond_func cond_func, void* cond_data) {
+int PtrVector_CountIf(PtrVector* vec, PtrVectorCondFunc cond_func, void* cond_data) {
     assert(vec != NULL);
     if (cond_func == NULL)
         return 0;
@@ -186,7 +186,7 @@ int PtrVector_CountIf(ptr_vector* vec, ptr_vector_cond_func cond_func, void* con
     return count;
 }
 
-int  PtrVector_Find(ptr_vector* vec, ptr_vector_cond_func cond_func, void* cond_data, int start_pos) {
+int  PtrVector_Find(PtrVector* vec, PtrVectorCondFunc cond_func, void* cond_data, int start_pos) {
     assert(vec != NULL);
     if (cond_func == NULL || start_pos < 0 || start_pos >= vec->array_num)
         return -1;
@@ -200,7 +200,7 @@ int  PtrVector_Find(ptr_vector* vec, ptr_vector_cond_func cond_func, void* cond_
     return -1;
 }
 
-void PtrVector_Foreach(ptr_vector* vec, ptr_vector_handle_func handle_func, void* handle_data) {
+void PtrVector_Foreach(PtrVector* vec, PtrVectorHandleFunc handle_func, void* handle_data) {
     assert(vec != NULL);
     if (handle_func == NULL)
         return;
@@ -211,8 +211,8 @@ void PtrVector_Foreach(ptr_vector* vec, ptr_vector_handle_func handle_func, void
     }
 }
 
-int  PtrVector_ForeachIf(ptr_vector* vec, ptr_vector_cond_func cond_func, void* cond_data,
-                         ptr_vector_handle_func handle_func, void* handle_data) {
+int  PtrVector_ForeachIf(PtrVector* vec, PtrVectorCondFunc cond_func, void* cond_data,
+                         PtrVectorHandleFunc handle_func, void* handle_data) {
     assert(vec != NULL);
     if (cond_func == NULL || handle_func == NULL)
         return 0;
@@ -229,10 +229,10 @@ int  PtrVector_ForeachIf(ptr_vector* vec, ptr_vector_cond_func cond_func, void* 
     return count;
 }
 
-ptr_vector* PtrVector_Filter(ptr_vector* vec, ptr_vector_cond_func cond_func, void* cond_data) {
+PtrVector* PtrVector_Filter(PtrVector* vec, PtrVectorCondFunc cond_func, void* cond_data) {
     assert(vec != NULL && cond_func != NULL);
 
-    ptr_vector* new_vec = PtrVector_Create(0);
+    PtrVector* new_vec = PtrVector_Create(0);
     if (new_vec != NULL) {
         for (int i = 0; i < vec->array_num; ++i) {
             void *item = vec->array_ptr[i];
@@ -244,7 +244,7 @@ ptr_vector* PtrVector_Filter(ptr_vector* vec, ptr_vector_cond_func cond_func, vo
     return new_vec;
 }
 
-void PtrVector_Destory(ptr_vector* vec, ptr_vector_free_func free_func) {
+void PtrVector_Destory(PtrVector* vec, PtrVectorFreeFunc free_func) {
     assert(vec != NULL);
     if (free_func != NULL) {
         for (int i = 0; i < vec->array_num; ++i)

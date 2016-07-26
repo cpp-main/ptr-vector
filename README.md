@@ -7,37 +7,37 @@ PtrVector容器对象主要有以下接口：
 
 ##1. 创建、复制、筛选、销毁
 ```
-ptr_vector* PtrVector_Create(int reserved_size);
-ptr_vector* PtrVector_Clone(const ptr_vector* ptr);
-ptr_vector* PtrVector_Filter(ptr_vector* vec, ptr_vector_cond_func cond_func, void* cond_data);
-void PtrVector_Destory(ptr_vector* vec);
+PtrVector* PtrVector_Create(int reserved_size);
+PtrVector* PtrVector_Clone(const PtrVector* ptr);
+PtrVector* PtrVector_Filter(PtrVector* vec, PtrVectorCondFunc cond_func, void* cond_data);
+void PtrVector_Destory(PtrVector* vec, PtrVectorFreeFunc free_func);
 ```
 
 ##2. 获取容器成员个数、容量、预留容量
 ```
-size_t PtrVector_Count(const ptr_vector* vec);
-size_t PtrVector_Capacity(const ptr_vector* vec);
-size_t PrtVector_Reserve(ptr_vector* vec, size_t new_size);
+size_t PtrVector_Size(const PtrVector* vec);
+size_t PtrVector_Capacity(const PtrVector* vec);
+size_t PrtVector_Reserve(PtrVector* vec, size_t new_size);
 ```
 
 ##3. 清空、追加、弹出、插入、删除、替换、获取
 ```
-void PtrVector_Clear(ptr_vector* vec);
-bool PtrVector_PushBack(ptr_vector* vec, void* item);
-void* PtrVector_PopBack(ptr_vector* vec);
-bool PtrVector_InsertAt(ptr_vector* vec, void* item, int pos);
-void* PtrVector_RemoveAt(ptr_vector* vec, int pos);
-void* PtrVector_ReplaceAt(ptr_vector* vec, int pos, void* new_item);
-void* PtrVector_GetAt(ptr_vector* vec, int pos);
+void PtrVector_Clear(PtrVector* vec);
+bool PtrVector_PushBack(PtrVector* vec, void* item);
+void* PtrVector_PopBack(PtrVector* vec);
+bool PtrVector_InsertAt(PtrVector* vec, void* item, int pos);
+void* PtrVector_RemoveAt(PtrVector* vec, int pos);
+void* PtrVector_ReplaceAt(PtrVector* vec, int pos, void* new_item);
+void* PtrVector_GetAt(PtrVector* vec, int pos);
 ```
 
 ##4. 查找、统计、遍历、条件遍历
 ```
-int PtrVector_CountIf(ptr_vector* vec, ptr_vector_cond_func cond_func, void* cond_data);
-int PtrVector_Find(ptr_vector* vec, ptr_vector_cond_func cond_func, void* cond_data, int start_pos);
-void PtrVector_Foreach(ptr_vector* vec, ptr_vector_handle_func handle_func, void* handle_data);
-int PtrVector_ForeachIf(ptr_vector* vec, ptr_vector_cond_func cond_func, void* cond_data,
-                        ptr_vector_handle_func handle_func, void* handle_data);
+int PtrVector_CountIf(PtrVector* vec, PtrVectorCondFunc cond_func, void* cond_data);
+int PtrVector_Find(PtrVector* vec, PtrVectorCondFunc cond_func, void* cond_data, int start_pos);
+void PtrVector_Foreach(PtrVector* vec, PtrVectorHandleFunc handle_func, void* handle_data);
+int PtrVector_ForeachIf(PtrVector* vec, PtrVectorCondFunc cond_func, void* cond_data,
+                        PtrVectorHandleFunc handle_func, void* handle_data);
 ```
 
 欢迎大家使用！
