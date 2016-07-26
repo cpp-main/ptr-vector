@@ -24,11 +24,11 @@ int main() {
     PtrVector_Foreach(vec, print, NULL);
     puts("\n=======");
     int cap = PtrVector_Capacity(vec);
-    int count = PtrVector_Count(vec);
+    int count = PtrVector_Size(vec);
     printf("cap:%d, count:%d\n", cap, count);
     PtrVector_Reserve(vec, 50);
     cap = PtrVector_Capacity(vec);
-    count = PtrVector_Count(vec);
+    count = PtrVector_Size(vec);
     printf("cap:%d, count:%d\n", cap, count);
     puts("\n=======");
 
@@ -62,9 +62,9 @@ int main() {
     PtrVector_Clear(vec);
     PtrVector_Foreach(vec, print, NULL);  //
     puts("\n=======");
-    PtrVector_Destory(new_vec);
-    PtrVector_Destory(dup_vec);
-    PtrVector_Destory(vec);
+    PtrVector_Destory(new_vec, NULL);
+    PtrVector_Destory(dup_vec, NULL);
+    PtrVector_Destory(vec, NULL);
 
     return 0;
 }

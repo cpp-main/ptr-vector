@@ -31,6 +31,8 @@ typedef struct ptr_vector ptr_vector;
 typedef bool (ptr_vector_cond_func)(void *item, void *cond_data);
 //! 元素处理函数指针
 typedef void (ptr_vector_handle_func)(void *item, void *handle_data);
+//! 元素释放函数指针
+typedef void (ptr_vector_free_func)(void *item);
 
 ///////////////////////////////////////////////////////////////////////////////
 //  Functions
@@ -47,7 +49,7 @@ ptr_vector* PtrVector_Create(size_t reserved_size);
 ptr_vector* PtrVector_Clone(const ptr_vector* ptr);
 
 //! 获取容器的元素个数
-size_t PtrVector_Count(const ptr_vector* vec);
+size_t PtrVector_Size(const ptr_vector* vec);
 
 //! 获取容器当前容量
 size_t PtrVector_Capacity(const ptr_vector* vec);
@@ -130,7 +132,7 @@ ptr_vector* PtrVector_Filter(ptr_vector* vec, ptr_vector_cond_func cond_func, vo
  * \param vec
  * \note 不会释放元素指向的空间
  */
-void PtrVector_Destory(ptr_vector* vec);
+void PtrVector_Destory(ptr_vector* vec, ptr_vector_free_func free_func);
 
 #ifdef __cplusplus
 }

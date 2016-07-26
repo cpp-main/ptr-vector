@@ -59,7 +59,7 @@ ptr_vector* PtrVector_Clone(const ptr_vector* src) {
     return vec;
 }
 
-size_t PtrVector_Count(const ptr_vector* vec) {
+size_t PtrVector_Size(const ptr_vector* vec) {
     assert(vec != NULL);
     return vec->array_num;
 }
@@ -244,8 +244,12 @@ ptr_vector* PtrVector_Filter(ptr_vector* vec, ptr_vector_cond_func cond_func, vo
     return new_vec;
 }
 
-void PtrVector_Destory(ptr_vector* vec) {
+void PtrVector_Destory(ptr_vector* vec, ptr_vector_free_func free_func) {
     assert(vec != NULL);
+    if (free_func != NULL) {
+        for (int i = 0; i < vec->array_num; ++i)
+            free_func(vec->array_ptr[i]);
+    }
     free(vec->array_ptr);
     free(vec);
 }
