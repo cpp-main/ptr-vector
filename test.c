@@ -59,7 +59,7 @@ int main() {
     PtrVector_ReplaceAt(vec, 3, &c); //g, a, f, c, e, f, h
     PtrVector_Foreach(vec, print, NULL);
     puts("\n=======");
-    PtrVector_Clear(vec);
+    PtrVector_Clear(vec, NULL);
     PtrVector_Foreach(vec, print, NULL);  //
     puts("\n=======");
     PtrVector_Destory(new_vec, NULL);
