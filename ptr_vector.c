@@ -27,7 +27,7 @@ PtrVector* PtrVector_Create(size_t reserved_size) {
     assert(reserved_size >= 0);
     PtrVector* vec = calloc(1, sizeof(PtrVector));
     if (vec != NULL) {
-        int init_size = (reserved_size != 0) ? reserved_size : _DEFAULT_INIT_SIZE; 
+        int init_size = (reserved_size != 0) ? reserved_size : _DEFAULT_INIT_SIZE;
         void ** ptr = calloc(init_size, sizeof(void*));
         if (ptr != NULL) {
             vec->array_ptr = ptr;
@@ -74,15 +74,23 @@ size_t PtrVector_Reserve(PtrVector* vec, size_t new_size) {
     if (vec->array_capacity < new_size) {
         void** ptr = realloc(vec->array_ptr, new_size * sizeof(void*));
         if (ptr != NULL) {
-            vec->array_ptr = ptr; 
+            vec->array_ptr = ptr;
             vec->array_capacity = new_size;
         }
     }
     return vec->array_capacity;
 }
 
-void PtrVector_Clear(PtrVector* vec) {
+void PtrVector_Clear(PtrVector* vec, PtrVectorFreeFunc free_func) {
     assert(vec != NULL);
+
+    if (free_func != NULL) {
+        for (int i = 0; i < vec->array_num; ++i) {
+            if (vec->array_ptr[i] != NULL)
+                free_func(vec->array_ptr[i]);
+        }
+    }
+
     vec->array_num = 0;
 }
 
@@ -98,7 +106,7 @@ static bool _PreAddItem(PtrVector* vec) {
         size_t new_size = (vec->array_capacity * 3 / 2) + 1;
         void** ptr = realloc(vec->array_ptr, new_size * sizeof(void*));
         if (ptr != NULL) {
-            vec->array_ptr = ptr; 
+            vec->array_ptr = ptr;
             vec->array_capacity = new_size;
         } else {
             return false;
@@ -131,7 +139,7 @@ bool PtrVector_InsertAt(PtrVector* vec, void* item, int pos) {
     assert(vec != NULL);
     if (!_PreAddItem(vec))
         return false;
-    
+
     for (int i = vec->array_num - 1; i >= pos; --i)
         vec->array_ptr[i+1] = vec->array_ptr[i];
     vec->array_ptr[pos] = item;
@@ -246,10 +254,14 @@ PtrVector* PtrVector_Filter(PtrVector* vec, PtrVectorCondFunc cond_func, void* c
 
 void PtrVector_Destory(PtrVector* vec, PtrVectorFreeFunc free_func) {
     assert(vec != NULL);
+
     if (free_func != NULL) {
-        for (int i = 0; i < vec->array_num; ++i)
-            free_func(vec->array_ptr[i]);
+        for (int i = 0; i < vec->array_num; ++i) {
+            if (vec->array_ptr[i] != NULL)
+                free_func(vec->array_ptr[i]);
+        }
     }
+
     free(vec->array_ptr);
     free(vec);
 }

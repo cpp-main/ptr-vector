@@ -41,7 +41,7 @@ typedef void (PtrVectorFreeFunc)(void *item);
 //  Functions
 ///////////////////////////////////////////////////////////////////////////////
 
-/** 
+/**
  * 创建PtrVector容器对象
  * \param reserved_size 预设大小
  * \return PtrVector 容器对象
@@ -61,7 +61,7 @@ size_t PtrVector_Capacity(const PtrVector* vec);
 size_t PtrVector_Reserve(PtrVector* vec, size_t new_size);
 
 //! 清空容器
-void PtrVector_Clear(PtrVector* vec);
+void PtrVector_Clear(PtrVector* vec, PtrVectorFreeFunc free_func);
 
 //! 将容器尾部追加元素
 bool PtrVector_PushBack(PtrVector* vec, void* item);
