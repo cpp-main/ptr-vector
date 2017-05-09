@@ -131,6 +131,16 @@ int PtrVector_ForeachIf(PtrVector* vec, PtrVectorCondFunc cond_func, void* cond_
 PtrVector* PtrVector_Filter(PtrVector* vec, PtrVectorCondFunc cond_func, void* cond_data);
 
 /**
+ * 移除出满足条件cond的元素，并释放元素
+ * \param vec
+ * \param cond_func 条件判定函数指针
+ * \param cond_data 条件附加参数指针
+ * \param free_func 释放函数指针
+ * \return int 被移除元素个数
+ */
+int PtrVector_RemoveIf(PtrVector *vec, PtrVectorCondFunc cond_func, void* cond_data, PtrVectorFreeFunc free_func);
+
+/**
  * 销毁容器
  * \param vec
  * \param free_func 元素释放函数指针

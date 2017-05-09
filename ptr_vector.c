@@ -252,6 +252,25 @@ PtrVector* PtrVector_Filter(PtrVector* vec, PtrVectorCondFunc cond_func, void* c
     return new_vec;
 }
 
+int PtrVector_RemoveIf(PtrVector *vec, PtrVectorCondFunc cond_func, void* cond_data, PtrVectorFreeFunc free_func) {
+    assert(vec != NULL && cond_func != NULL);
+    int remove_count = 0;
+    for (int i = 0; i < vec->array_num; ++i) {
+        if (remove_count > 0)
+            vec->array_ptr[i-remove_count] = vec->array_ptr[i];
+
+        void *item = vec->array_ptr[i];
+        if (cond_func(item, cond_data)) {
+            if (free_func != NULL)
+                free_func(item);
+            ++remove_count;
+        }
+    }
+    vec->array_num -= remove_count;
+
+    return remove_count;
+}
+
 void PtrVector_Destory(PtrVector* vec, PtrVectorFreeFunc free_func) {
     assert(vec != NULL);
 
