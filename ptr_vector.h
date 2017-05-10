@@ -49,6 +49,7 @@ typedef void (PtrVectorFreeFunc)(void *item);
 PtrVector* PtrVector_Create(size_t reserved_size);
 
 //! 复制PtrVector容器对象
+//! 注意：只clone容器本身，不对成员指针所指对象进行clone
 PtrVector* PtrVector_Clone(const PtrVector* ptr);
 
 //! 获取容器的元素个数
@@ -61,6 +62,7 @@ size_t PtrVector_Capacity(const PtrVector* vec);
 size_t PtrVector_Reserve(PtrVector* vec, size_t new_size);
 
 //! 清空容器
+//! 如果free_func不为NULL，则会用free_func处理每一个成员，通常用free()
 void PtrVector_Clear(PtrVector* vec, PtrVectorFreeFunc free_func);
 
 //! 将容器尾部追加元素
@@ -136,6 +138,8 @@ PtrVector* PtrVector_Filter(PtrVector* vec, PtrVectorCondFunc cond_func, void* c
  * \param cond_func 条件判定函数指针
  * \param cond_data 条件附加参数指针
  * \param free_func 释放函数指针
+ *  > NULL，不释放其中的元素
+ *  > 非NULL，释放容器中每个指针所指向的空间
  * \return int 被移除元素个数
  */
 int PtrVector_RemoveIf(PtrVector *vec, PtrVectorCondFunc cond_func, void* cond_data, PtrVectorFreeFunc free_func);
