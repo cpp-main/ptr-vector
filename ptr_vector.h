@@ -31,11 +31,11 @@ struct PtrVector;
 typedef struct PtrVector PtrVector;
 
 //! 条件判断函数指针
-typedef bool (PtrVectorCondFunc)(void *item, void *cond_data);
+typedef bool (*PtrVectorCondFunc)(void *item, void *cond_data);
 //! 元素处理函数指针
-typedef void (PtrVectorHandleFunc)(void *item, void *handle_data);
+typedef void (*PtrVectorHandleFunc)(void *item, void *handle_data);
 //! 元素释放函数指针
-typedef void (PtrVectorFreeFunc)(void *item);
+typedef void (*PtrVectorFreeFunc)(void *item);
 
 ///////////////////////////////////////////////////////////////////////////////
 //  Functions
