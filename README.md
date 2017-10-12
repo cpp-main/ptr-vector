@@ -22,7 +22,7 @@ size_t PrtVector_Reserve(PtrVector* vec, size_t new_size);
 
 ##3. 清空、追加、弹出、插入、删除、替换、获取
 ```
-void PtrVector_Clear(PtrVector* vec);
+void PtrVector_Clear(PtrVector* vec, PtrVectorFreeFunc free_func);
 bool PtrVector_PushBack(PtrVector* vec, void* item);
 void* PtrVector_PopBack(PtrVector* vec);
 bool PtrVector_InsertAt(PtrVector* vec, void* item, int pos);
@@ -31,13 +31,15 @@ void* PtrVector_ReplaceAt(PtrVector* vec, int pos, void* new_item);
 void* PtrVector_GetAt(PtrVector* vec, int pos);
 ```
 
-##4. 查找、统计、遍历、条件遍历
+##4. 查找、统计、遍历、条件遍历、条件删除
 ```
 int PtrVector_CountIf(PtrVector* vec, PtrVectorCondFunc cond_func, void* cond_data);
 int PtrVector_Find(PtrVector* vec, PtrVectorCondFunc cond_func, void* cond_data, int start_pos);
 void PtrVector_Foreach(PtrVector* vec, PtrVectorHandleFunc handle_func, void* handle_data);
 int PtrVector_ForeachIf(PtrVector* vec, PtrVectorCondFunc cond_func, void* cond_data,
                         PtrVectorHandleFunc handle_func, void* handle_data);
+int PtrVector_RemoveIf(PtrVector *vec, PtrVectorCondFunc cond_func, void* cond_data,
+                       PtrVectorFreeFunc free_func);
 ```
 
 欢迎大家使用！
