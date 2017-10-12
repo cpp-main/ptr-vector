@@ -15,6 +15,9 @@
  *
  * 2016-07-26   Sid lee
  * 1. 修改Destory()，添加指针元素释放函数，方便使用。
+ *
+ * 2017-10-12   Sid lee
+ * 1. 修正函数指针typedef定义错误
  */
 #ifndef PTR_VERTOR_H_20160704
 #define PTR_VERTOR_H_20160704
