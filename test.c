@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "ptr_vector.h"
+#include "str_vector.h"
 
 void print(void *p, void *d) {
     (void)d;
@@ -11,7 +12,7 @@ bool cond_gt(void *p, void *d) {
     return (*(char*)p > *(char*)d);
 }
 
-int main() {
+void test_ptr_vector() {
     char a = 'a', b = 'b', c = 'c', d = 'd';
     char e = 'e', f = 'f', g = 'g', h = 'h';
 
@@ -78,6 +79,38 @@ int main() {
     PtrVector_Destory(new_vec, NULL);
     PtrVector_Destory(dup_vec, NULL);
     PtrVector_Destory(vec, NULL);
+}
 
+void _print_each_string(void *p, void *a) {
+    printf("%s ", (const char*)p);
+}
+
+void test_str_vector() {
+    StrVector *str_vec = StrVector_Create(0);
+    StrVector_PushBack(str_vec, "hello");
+    StrVector_PushBack(str_vec, "world");
+    StrVector_Foreach(str_vec, _print_each_string, NULL);   // hello world
+    puts("\n=======");
+    StrVector_PushBackIfNotExist(str_vec, "hello");
+    StrVector_Foreach(str_vec, _print_each_string, NULL);   // hello world
+    puts("\n=======");
+    StrVector_PushBackIfNotExist(str_vec, "123");
+    StrVector_Foreach(str_vec, _print_each_string, NULL);   // hello world 123
+    puts("\n=======");
+    StrVector_PushBack(str_vec, "hello");
+    StrVector_Foreach(str_vec, _print_each_string, NULL);   // hello world 123 hello
+    puts("\n=======");
+    StrVector_ForeachIfEqual(str_vec, "hello", _print_each_string, NULL);   // hello hello
+    puts("\n=======");
+    char *str_hello = StrVector_GetAt(str_vec, 1);
+    puts(str_hello);    //! hello
+    puts("=======");
+
+    StrVector_Destory(str_vec);
+}
+
+int main () {
+    test_ptr_vector();
+    test_str_vector();
     return 0;
 }
