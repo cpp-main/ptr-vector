@@ -1,7 +1,7 @@
-objects=ptr_vector.o str_vector.o test.o
+objects=ptr_vector.o test.o
 target=test
 
-CFLAGS+=-g -Wall
+CFLAGS+=-g -Wall -std=c99
 
 all:$(target)
 
