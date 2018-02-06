@@ -7,6 +7,8 @@
  */
 
 #include "str_vector.h"
+
+#define __USE_BSD 
 #include <string.h>
 
 bool StrVector_CondFunc_StringEqual(void *item, void *arg) {
