@@ -8,8 +8,9 @@
 
 #include "str_vector.h"
 
-#define __USE_BSD 
 #include <string.h>
+
+extern char* strdup(const char *);
 
 bool StrVector_CondFunc_StringEqual(void *item, void *arg) {
     const char *lhs_str = (const char*) item;
