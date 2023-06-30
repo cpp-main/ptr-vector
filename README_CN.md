@@ -1,4 +1,6 @@
-# ptr\_vector
+[[English]](README.md)
+
+# ptr-vector
 
 PtrVector是一个用C语言实现的简单指针容器，模仿C++的std::vector。  
 使用它可以轻松解决C语言中没有容器支持，不易管理对象的痛点。
@@ -44,7 +46,20 @@ int PtrVector_RemoveIf(PtrVector *vec, PtrVectorCondFunc cond_func, void* cond_d
 
 欢迎大家使用！
 
-#问题反馈
-Email: hevake\_lcj@126.com  
-QQ: 527020730  
-微信: hevake\_lee
+# 反馈途径
+
+- Issue: 任何问题都欢迎在issue里交流
+- 微信: hevake\_lee
+- QQ群: 738084942 (cpp-tbox 技术交流)
+
+# 鼓励我们
+
+如果这个项目让您的工作更轻松、下班更早了，请您给我更多的鼓励。  
+你可以做这些：  
+
+- 给它点亮三连： Star, Watch, Fork；
+- 向身边的同事与伙伴推荐，在技术论坛向您的读者推荐；
+- 加入上面的QQ群、加我微信进入微信群；
+- 积极反馈问题，提出建议；
+- 参与项目的开发，贡献您的力量；
+- 让我知道它被运用到了哪些的项目上；
