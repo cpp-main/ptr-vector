@@ -1,5 +1,3 @@
-[[中文]](README_CN.md)
-
 # ptr\_vector
 
 PtrVector是一个用C语言实现的简单指针容器，模仿C++的std::vector。  
